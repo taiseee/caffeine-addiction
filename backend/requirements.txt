@@ -1,0 +1,3 @@
+fastapi
+uvicorn
+gensim==3.8.1
