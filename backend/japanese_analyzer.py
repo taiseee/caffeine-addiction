@@ -2,11 +2,6 @@ import janome.tokenizer
 
 tokenizer = janome.tokenizer.Tokenizer()
 
-text = "戦国大名"
-tokens = list(tokenizer.tokenize(text=text))
-for t in tokens:
-  print(t)
-
 class JapaneseAnalyzer:
   
   @classmethod
