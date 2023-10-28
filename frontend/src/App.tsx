@@ -11,7 +11,7 @@ function App() {
       <main className="light text-foreground bg-background">
         <Routes>
             <Route path="/" element={<Register />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home/:id" element={<Home />} />
         </Routes>
       </main>
     </BrowserRouter>

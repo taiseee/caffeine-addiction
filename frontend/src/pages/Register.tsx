@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react"
+import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 import register from "../apiCalls/register"
 import uploadImageToS3 from "../s3/s3"
 import { MAN, WOMAN, OTHER } from "../consts/sex"
 
 const Register = () => {
+    const { handleSubmit } = useForm();
+    const navigate = useNavigate();
     const [name, setName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [sex, setSex] = useState<number>(MAN);
@@ -13,7 +17,7 @@ const Register = () => {
     const [lineURL, setLINEURL] = useState<string>("");
     const [imageURL, setImageURL] = useState<string>("");
 
-    const handleSubmit = async () => {
+    const onSubmit = async () => {
         const data = await register({
             name: name,
             password: password,
@@ -24,6 +28,7 @@ const Register = () => {
             line_url: lineURL,
             image_url: imageURL,
         })
+        navigate(`/home/${data}`);
     }
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +85,7 @@ const Register = () => {
     return (
         <div className="container mx-auto px-4">
             <h1>ユーザー登録</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
