@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from schemas import UserData, RegisterRequest
 from vector_creator import vector_creator
 from vector_db_manager import vector_db_manager
@@ -7,6 +8,18 @@ from recommender import recommender
 from japanese_analyzer import JapaneseAnalyzer
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # デバッグ用
 # WARNING: mysqlに保存する仕組みを作るまではuser_idをスクリプトで計算
@@ -27,8 +40,6 @@ def register(data: RegisterRequest):
         id = user_id,
         name = data.name,
         sex = data.sex,
-        # デバッグ用
-        # WARNING: keyerrorが起こる可能性あり。TODO:エラーハンドリング
         personality = data.personality,
         hobby = data.hobby,
         line_url = data.line_url
@@ -51,4 +62,8 @@ def register(data: RegisterRequest):
     user_id += 1
 
     return JSONResponse(content={"data": recommended_users})
+
+@app.get("/api/recommendation/{user_id}")
+def recommendation(user_id: int):
+    return JSONResponse(content={"data": user_id})
     

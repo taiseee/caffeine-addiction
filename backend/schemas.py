@@ -15,6 +15,7 @@ class RegisterRequest(BaseModel):
     sex: int = Field(None, disctiption="性別")
     personality: str = Field(None, disctiption="性格")
     hobby: str = Field(None, discription="趣味")
+    self_introduction: str = Field(None, discription="自己紹介")
     line_url: str = Field(None, discription="LINEのURL")
 
 class RegisterResponse(BaseModel):
