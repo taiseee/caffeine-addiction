@@ -44,6 +44,12 @@ services:
       - 3306:3306
     restart: always
 
+  vector_db:
+    image: qdrant/qdrant
+    container_name: 'vector_db'
+    ports:
+      - "6333:6333"
+
 volumes:
   mysql-data:
     name: mysql-data
