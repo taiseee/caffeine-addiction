@@ -5,7 +5,8 @@ class UserData(BaseModel):
     id: int = Field(None, discription="ユーザーID")
     name: str = Field(None, discription="ユーザー名")
     sex: int = Field(None, discription="性別")
-    keywords: List[str] = Field(None, discription="性格と趣味")
+    personality: str = Field(None, discription="性格")
+    hobby: str = Field(None, discription="趣味")
     line_url: str = Field(None, discription="LINEのURL")
 
 class RegisterRequest(BaseModel):
@@ -14,7 +15,6 @@ class RegisterRequest(BaseModel):
     sex: int = Field(None, disctiption="性別")
     personality: str = Field(None, disctiption="性格")
     hobby: str = Field(None, discription="趣味")
-    vector_id: int = Field(None, discription="ベクトルID")
     line_url: str = Field(None, discription="LINEのURL")
 
 class RegisterResponse(BaseModel):

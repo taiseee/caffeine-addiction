@@ -21,7 +21,8 @@ class VectorDBManager:
             collection_name=self.__collection_name,
             points=[
                 PointStruct(id=self.__vector_id, vector=feature_vector, payload=(
-                    {"user_id": user.id, "user_name": user.name, "user_sex": user.sex, "user_keywords": user.keywords, "line_url": user.line_url}
+                    {"user_id": user.id, "user_name": user.name, "user_sex": user.sex,
+                     "user_personality": user.personality, "user_hobby": user.hobby, "line_url": user.line_url}
                 ))
             ]
         )
