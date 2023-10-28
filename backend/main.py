@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from schemas import RegisterRequest
+from schemas import UserData, RegisterRequest
 from vector_creator import vector_creator
 from vector_db_manager import vector_db_manager
 from recommender import recommender
@@ -51,7 +51,16 @@ def register(data: RegisterRequest):
     feature_vector = vector_creator.create_feature_vector(personalities + hobbies)
 
     # 特徴ベクトルとユーザー情報を保存
-    vector_db_manager.upsert(feature_vector, user.id)
+    vector_db_manager.upsert(feature_vector,
+                             UserData(
+                                id = user.id,
+                                name = user.name,
+                                sex = user.sex,
+                                personality = user.personality,
+                                hobby = user.hobby,
+                                line_url = user.line_url,
+                                image_url = user.image_url
+                             ))
 
     return JSONResponse(content={"data": user.id})
 
