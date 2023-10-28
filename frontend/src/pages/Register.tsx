@@ -1,10 +1,72 @@
-export default Register;
+import React, { useState, useEffect } from "react"
+import register from "../apiCalls/register"
+import { MAN, WOMAN, OTHER } from "../consts/sex"
 
-function Register() {
+const Register = () => {
+    const [name, setName] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [sex, setSex] = useState<number>(MAN);
+    const [personality, setPersonality] = useState<string>("");
+    const [hobby, setHobby] = useState<string>("");
+    const [selfIntroduction, setSelfIntroduction] = useState<string>("");
+    const [lineURL, setLINEURL] = useState<string>("");
+
+    const handleSubmit = async () => {
+        const data = await register({
+            name: name,
+            password: password,
+            sex: sex,
+            personality: personality,
+            hobby: hobby,
+            self_introduction: selfIntroduction,
+            line_url: lineURL
+        })
+    }
+
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value)
+    }
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value)
+    }
+
+    const handleSexChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        switch (event.target.value) {
+            case '男性':
+                setSex(MAN);
+                break
+            case '女性':
+                setSex(WOMAN);
+                break
+            case 'その他':
+                setSex(OTHER);
+                break
+            default:
+                window.alert("性別の入力が無効です");
+        }
+    }
+
+    const handlePersonalityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPersonality(event.target.value)
+    }
+
+    const handleHobbyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setHobby(event.target.value)
+    }
+
+    const handleLINEURLChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLINEURL(event.target.value)
+    }
+
+    const handleSelfIntroductionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setSelfIntroduction(event.target.value)
+    }
+
     return (
         <div className="container mx-auto px-4">
             <h1>ユーザー登録</h1>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -19,8 +81,29 @@ function Register() {
                                         <input
                                             type="text"
                                             name="name"
+                                            value={name}
                                             id="name"
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            onChange={handleNameChange}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* パスワード */}
+                            <div className="sm:col-span-4">
+                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                    パスワード
+                                </label>
+                                <div className="mt-2">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                        <input
+                                            type="text"
+                                            name="password"
+                                            value={password}
+                                            id="password"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            onChange={handlePasswordChange}
                                         />
                                     </div>
                                 </div>
@@ -35,7 +118,9 @@ function Register() {
                                     <select
                                         id="sex"
                                         name="sex"
+                                        value={sex}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                        onChange={handleSexChange}
                                     >
                                         <option>男性</option>
                                         <option>女性</option>
@@ -54,8 +139,10 @@ function Register() {
                                         <input
                                             type="text"
                                             name="personality"
+                                            value={personality}
                                             id="personality"
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            onChange={handlePersonalityChange}
                                         />
                                     </div>
                                 </div>
@@ -71,8 +158,29 @@ function Register() {
                                         <input
                                             type="text"
                                             name="hobby"
+                                            value={hobby}
                                             id="hobby"
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            onChange={handleHobbyChange}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* LINEのURL */}
+                            <div className="sm:col-span-4">
+                                <label htmlFor="lineURL" className="block text-sm font-medium leading-6 text-gray-900">
+                                    LINEのURL
+                                </label>
+                                <div className="mt-2">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                        <input
+                                            type="text"
+                                            name="lineURL"
+                                            value={lineURL}
+                                            id="lineURL"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            onChange={handleLINEURLChange}
                                         />
                                     </div>
                                 </div>
@@ -87,7 +195,9 @@ function Register() {
                                     <textarea
                                         id="self_introduction"
                                         name="self_introduction"
+                                        value={selfIntroduction}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        onChange={handleSelfIntroductionChange}
                                     />
                                 </div>
                                 <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
@@ -108,3 +218,5 @@ function Register() {
         </div>
     );
 }
+
+export default Register;
