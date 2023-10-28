@@ -1,10 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 
-// TODO: べた書きやめる
 AWS.config.update({
-    accessKeyId: 'AKIAY7DBL7J5BOUERUPD',
-    secretAccessKey: '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',
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
     region: 'ap-northeast-1',
 });
 
