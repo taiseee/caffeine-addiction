@@ -6,3 +6,6 @@ janome
 sqlalchemy
 qdrant-client
 numpy
+SQLAlchemy
+pymysql
+alembic
