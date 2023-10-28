@@ -2,6 +2,7 @@ uvicorn
 fastapi
 pydantic
 gensim
+janome
 sqlalchemy
 qdrant-client
 numpy

@@ -24,6 +24,7 @@ services:
     environment:
       - NODE_ENV=DEVELOPMENT
       - PORT=3000
+      - WATCHPACK_POLLING=true
     volumes:
       - ./frontend:/usr/src/app
     ports:
