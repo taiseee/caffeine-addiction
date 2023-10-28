@@ -42,6 +42,8 @@ AWS × データ
 
 5. migrationを実行する
 
+    データベース「tomodati_db」を作成しておく
+
     ``` bash
     sh bash_backend.sh
 
