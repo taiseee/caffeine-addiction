@@ -1,6 +1,16 @@
 from typing import List
 from pydantic import BaseModel, Field
 
+class UserData(BaseModel):
+    id: int = Field(None)
+    name: str = Field(None)
+    sex: int = Field(None)
+    personality: str = Field(None)
+    hobby: str = Field(None)
+    self_introduction: str = Field(None)
+    line_url: str = Field(None)
+    image_url: str = Field(None)
+
 class RegisterRequest(BaseModel):
     name: str = Field(..., discription="ユーザー名")
     password: str = Field(..., discription="password")
