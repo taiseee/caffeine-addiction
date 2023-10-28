@@ -10,13 +10,14 @@ class UserData(BaseModel):
     line_url: str = Field(None, discription="LINEのURL")
 
 class RegisterRequest(BaseModel):
-    name: str = Field(None, discription="ユーザー名")
-    passward: str = Field(None, discription="password")
-    sex: int = Field(None, disctiption="性別")
-    personality: str = Field(None, disctiption="性格")
-    hobby: str = Field(None, discription="趣味")
+    name: str = Field(..., discription="ユーザー名")
+    password: str = Field(..., discription="password")
+    sex: int = Field(..., disctiption="性別")
+    personality: str = Field(..., disctiption="性格")
+    hobby: str = Field(..., discription="趣味")
     self_introduction: str = Field(None, discription="自己紹介")
-    line_url: str = Field(None, discription="LINEのURL")
+    line_url: str = Field(..., discription="LINEのURL")
+    image_url: str = Field(None, discription="画像ファイル")
 
 class RegisterResponse(BaseModel):
     id: int = Field(None, discription="ユーザーID")

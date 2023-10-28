@@ -40,13 +40,23 @@ AWS × データ
     docker-compose up -d
     ```
 
-5. 動作確認
+5. migrationを実行する
+
+    ``` bash
+    sh bash_backend.sh
+
+    cd database
+
+    alembic upgrade head
+    ```
+
+6. 動作確認
 
     - react: [http://localhost:3000](http://localhost:3000)にアクセス
 
     - fastapi: [http://localhost:8000](http://localhost:8000)にアクセス
 
-6. dockerコンテナを停止と削除
+7. dockerコンテナを停止と削除
 
     ``` bash
     docker-compose down

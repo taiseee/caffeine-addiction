@@ -6,7 +6,8 @@ from vector_creator import vector_creator
 from vector_db_manager import vector_db_manager
 from recommender import recommender
 from japanese_analyzer import JapaneseAnalyzer
-
+from models.setting import session
+from models import User
 app = FastAPI()
 
 origins = [
@@ -31,39 +32,70 @@ def main():
 
 @app.post("/api/register")
 def register(data: RegisterRequest):
-    # デバッグ用
-    # WARNING: mysqlに保存する仕組みを作るまではuser_idをスクリプトで計算
-    global user_id
-
-    # リクエストからユーザー情報を生成
-    user = UserData(
-        id = user_id,
+    user = User(
         name = data.name,
+        password = data.password,
         sex = data.sex,
+        # WARNING: keyerrorが起こる可能性あり。TODO:エラーハンドリング
         personality = data.personality,
         hobby = data.hobby,
-        line_url = data.line_url
+        self_introduction = data.self_introduction,
+        line_url = data.line_url,
+        image_url = data.image_url
     )
 
-    # 性格と趣味から名刺・形容詞を抽出
-    personalities = JapaneseAnalyzer.extract_nouns_and_adjectives(data.personality)
-    hobbies = JapaneseAnalyzer.extract_nouns_and_adjectives(data.hobby)
+    session.add(user)
+    session.commit()
 
-    # ユーザーの特徴ベクトルを生成
-    feature_vector = vector_creator.create_feature_vector(personalities + hobbies)
+    # # 性格と趣味から名刺・形容詞を抽出
+    # personalities = JapaneseAnalyzer.extract_nouns_and_adjectives(data.personality)
+    # hobbies = JapaneseAnalyzer.extract_nouns_and_adjectives(data.hobby)
 
-    # 特徴ベクトルとユーザー情報を保存
-    vector_db_manager.upsert(feature_vector, user)
+    # # ユーザーの特徴ベクトルを生成
+    # feature_vector = vector_creator.create_feature_vector(personalities + hobbies)
 
-    # デバッグ用
-    # WARNING: 本来、推薦されるユーザーは/api/recommendationで取得すべきだが、
-    # mysqlに保存する仕組みを作るまではここで取得する
-    recommended_users = recommender.recommend(user_id, feature_vector)
-    user_id += 1
+    # # 特徴ベクトルとユーザー情報を保存
+    # vector_db_manager.upsert(feature_vector, user)
 
-    return JSONResponse(content={"data": recommended_users})
+    # # デバッグ用
+    # # WARNING: 本来、推薦されるユーザーは/api/recommendationで取得すべきだが、
+    # # mysqlに保存する仕組みを作るまではここで取得する
+    # recommended_users = recommender.recommend(user_id, feature_vector)
+    # user_id += 1
+
+    # return JSONResponse(content={"data": recommended_users})
+    return JSONResponse(content={"data": user.id})
 
 @app.get("/api/recommendation/{user_id}")
 def recommendation(user_id: int):
     return JSONResponse(content={"data": user_id})
     
+    # user_data = UserData(
+    #     id = user.id,
+    #     name = data.name,
+    #     sex = data.sex,
+    #     # デバッグ用
+    #     # WARNING: keyerrorが起こる可能性あり。TODO:エラーハンドリング
+    #     personality = data.personality,
+    #     hobby = data.hobby,
+    #     line_url = data.line_url
+    # )
+
+    # # 性格と趣味から名刺・形容詞を抽出
+    # personalities = JapaneseAnalyzer.extract_nouns_and_adjectives(data.personality)
+    # hobbies = JapaneseAnalyzer.extract_nouns_and_adjectives(data.hobby)
+
+    # # ユーザーの特徴ベクトルを生成
+    # feature_vector = vector_creator.create_feature_vector(personalities + hobbies)
+
+    # # 特徴ベクトルとユーザー情報を保存
+    # vector_db_manager.upsert(feature_vector, user)
+
+    # # デバッグ用
+    # # WARNING: 本来、推薦されるユーザーは/api/recommendationで取得すべきだが、
+    # # mysqlに保存する仕組みを作るまではここで取得する
+    # recommended_users = recommender.recommend(user.id, feature_vector)
+
+    # return JSONResponse(content={"data": recommended_users})
+    # return JSONResponse(content={"data": user.id})
+
