@@ -1,6 +1,5 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, PointStruct, Filter, FieldCondition, MatchValue
-from schemas import UserData
 from consts import VECTOR_DIMENTION, VECTOR_DB_HOST, VECTOR_DB_PORT, VECTOR_DB_COLLECTION_NAME
 
 

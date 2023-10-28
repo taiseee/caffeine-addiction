@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from schemas import UserData, RegisterRequest
+from schemas import RegisterRequest
 from vector_creator import vector_creator
 from vector_db_manager import vector_db_manager
 from recommender import recommender
