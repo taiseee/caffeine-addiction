@@ -25,6 +25,7 @@ class VectorDBManager:
                                       "user_name": user.name,
                                       "user_sex": user.sex,
                                       "user_personality": user.personality,
+                                      "self_introduction": user.self_introduction,
                                       "line_url": user.line_url,
                                       "image_url": user.image_url}
                                       ))

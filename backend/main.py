@@ -58,6 +58,7 @@ def register(data: RegisterRequest):
                                 sex = user.sex,
                                 personality = user.personality,
                                 hobby = user.hobby,
+                                self_introduction = user.self_introduction,
                                 line_url = user.line_url,
                                 image_url = user.image_url
                              ))
