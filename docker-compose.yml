@@ -10,8 +10,6 @@ services:
       - ./backend:/usr/src/app
     ports:
       - 8000:8000
-    networks:
-      - mysql_network
     working_dir: /usr/src/app
     env_file:
       - .env
@@ -47,8 +45,6 @@ services:
       TZ: Japan
     ports:
       - 3306:3306
-    networks:
-      - mysql_network
     restart: always
 
   vector_db:
@@ -60,8 +56,3 @@ services:
 volumes:
   mysql-data:
     name: mysql-data
-
-
-networks:
-  mysql_network:
-    driver: bridge
