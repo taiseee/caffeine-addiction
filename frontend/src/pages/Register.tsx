@@ -1,4 +1,3 @@
-import {Badge, Avatar} from "@nextui-org/react";
 export default Register;
 
 function Register() {
