@@ -2,8 +2,10 @@ export default Register;
 
 function Register() {
     return (
-        <div>
-            Register Page
+        <div className="container mx-auto px-4">
+            <form action="">
+                Register
+            </form>
         </div>
     );
 }
