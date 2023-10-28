@@ -2,7 +2,9 @@ uvicorn
 fastapi
 pydantic
 gensim
-mecab-python3
 sqlalchemy
 qdrant-client
 numpy
+SQLAlchemy
+pymysql
+alembic

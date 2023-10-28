@@ -10,7 +10,11 @@ services:
       - ./backend:/usr/src/app
     ports:
       - 8000:8000
+    networks:
+      - mysql_network
     working_dir: /usr/src/app
+    env_file:
+      - .env
 
   react:
     build: ./frontend
@@ -31,7 +35,7 @@ services:
     build: ./database
     container_name: mysql-container
     hostname: mysql-server
-    platform: linux/x86_64
+    platform: linux/amd64 # for M2 Mac
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     volumes:
       - mysql-data:/var/lib/mysql
@@ -42,6 +46,8 @@ services:
       TZ: Japan
     ports:
       - 3306:3306
+    networks:
+      - mysql_network
     restart: always
 
   vector_db:
@@ -53,3 +59,8 @@ services:
 volumes:
   mysql-data:
     name: mysql-data
+
+
+networks:
+  mysql_network:
+    driver: bridge
