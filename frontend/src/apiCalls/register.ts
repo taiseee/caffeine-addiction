@@ -8,6 +8,7 @@ interface UserData {
     hobby: string,
     self_introduction: string,
     line_url: string,
+    image_url: string
 }
 
 const register = (user: UserData) => {
@@ -18,7 +19,8 @@ const register = (user: UserData) => {
         personality: user.personality,
         hobby: user.hobby,
         self_introduction: user.self_introduction,
-        line_url: user.line_url
+        line_url: user.line_url,
+        image_url: user.image_url
     })
     .then((response) => {
         return response.data.data
