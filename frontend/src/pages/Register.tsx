@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import register from "../apiCalls/register";
 import uploadImageToS3 from "../s3/s3";
 import { MAN, WOMAN, OTHER } from "../consts/sex";
-import { Input } from "@nextui-org/react";
+import { Input, image } from "@nextui-org/react";
 import { Select, SelectItem, Textarea, Button } from "@nextui-org/react";
 
 const Register = () => {
@@ -20,6 +20,7 @@ const Register = () => {
   const [imageURL, setImageURL] = useState<string>("");
 
   const onSubmit = async () => {
+    console.log("image_onsubmit",imageURL);
     const data = await register({
       name: name,
       password: password,
@@ -87,6 +88,7 @@ const Register = () => {
     if (!event.target.files) return;
     uploadImageToS3(event.target.files[0])
       .then((imageUrl) => {
+        console.log("image_handle",imageUrl);
         setImageURL(imageUrl);
       })
       .catch((error) => {

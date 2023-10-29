@@ -12,6 +12,7 @@ interface UserData {
 }
 
 const register = (user: UserData) => {
+    console.log(user)
     return axios.post('http://localhost:8000/api/register', {
         name: user.name,
         password: user.password,
