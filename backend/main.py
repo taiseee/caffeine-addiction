@@ -83,7 +83,7 @@ def recommendation(user_id: int):
     return JSONResponse(content={"data": recommended_users})
 
 @app.post("/api/like")
-def good(data: LikeRequest):
+def like(data: LikeRequest):
     like = Like(
         send_user_id=data.send_user_id,
         receive_user_id=data.receive_user_id
