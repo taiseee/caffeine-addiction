@@ -2,8 +2,8 @@ import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 
 AWS.config.update({
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.REACT_APP_CLOUD_SERVICE_KEY,
+    secretAccessKey: process.env.REACT_APP_CLOUD_SERVICE_SECRET_KEY,
     region: 'ap-northeast-1',
 });
 
