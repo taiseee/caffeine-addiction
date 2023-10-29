@@ -1,13 +1,14 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from schemas import UserData, RegisterRequest
+from schemas import UserData, RegisterRequest, LikeRequest
 from vector_creator import vector_creator
 from vector_db_manager import vector_db_manager
 from recommender import recommender
 from japanese_analyzer import JapaneseAnalyzer
+from like_notification import LikeNotification
 from models.setting import session
-from models import User
+from models import User, Like
 app = FastAPI()
 
 origins = [
@@ -81,3 +82,32 @@ def recommendation(user_id: int):
 
     return JSONResponse(content={"data": recommended_users})
 
+@app.post("/api/like")
+def like(data: LikeRequest):
+    like = Like(
+        send_user_id=data.send_user_id,
+        receive_user_id=data.receive_user_id
+    )
+
+    session.add(like)
+    session.commit()
+
+    # いいねを送った相手が既に自分にいいねを送っていた場合マッチング
+    like_inverse = Like.query.filter_by(
+        send_user_id=like.receive_user_id,
+        receive_user_id=like.send_user_id
+    ).first()
+
+    send_user=User.query.filter_by(id=like.send_user_id).first()
+    receive_user=User.query.filter_by(id=like.receive_user_id).first()
+
+    if like_inverse != None:
+        LikeNotification.push_message(f"ユーザー: {send_user.name}さんとマッチしました。", to=receive_user)
+        return JSONResponse(content={"data": {
+            "message": f"ユーザー: {receive_user.name}さんとマッチしました。",
+            "line_url": receive_user.line_url
+            }}
+        )
+    else:
+        LikeNotification.push_message(f"ユーザー: {send_user.name}からいいねされました。", to=receive_user)
+        return JSONResponse(content={"data": f"ユーザー: {receive_user.name}にいいねしました。"})

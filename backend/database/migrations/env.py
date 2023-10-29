@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 import os
 from models.setting import Base
-from models import User, Sex
+from models import User, Sex, Like
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
