@@ -20,3 +20,7 @@ class RegisterRequest(BaseModel):
     self_introduction: str = Field(None, discription="自己紹介")
     line_url: str = Field(..., discription="LINEのURL")
     image_url: str = Field(None, discription="画像ファイル")
+
+class LikeRequest(BaseModel):
+    send_user_id: int = Field(..., discription="いいねしたユーザーのID")
+    receive_user_id: int = Field(..., discription="いいねされたユーザーのID")
