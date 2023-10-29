@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import register from "../apiCalls/register"
 import uploadImageToS3 from "../s3/s3"
 import { MAN, WOMAN, OTHER } from "../consts/sex"
+import {Input} from "@nextui-org/react";
+import {Select, SelectItem, Textarea, Button} from "@nextui-org/react";
 
 const Register = () => {
     const [name, setName] = useState<string>("");
@@ -26,6 +28,12 @@ const Register = () => {
         })
     }
 
+    const sexList = [
+        {label: "男性", value: MAN},
+        {label: "女性", value: WOMAN},
+        {label: "その他", value: OTHER}
+    ]
+
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
     }
@@ -36,13 +44,13 @@ const Register = () => {
 
     const handleSexChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         switch (event.target.value) {
-            case '男性':
+            case MAN.toString():
                 setSex(MAN);
                 break
-            case '女性':
+            case WOMAN.toString():
                 setSex(WOMAN);
                 break
-            case 'その他':
+            case OTHER.toString():
                 setSex(OTHER);
                 break
             default:
@@ -62,7 +70,7 @@ const Register = () => {
         setLINEURL(event.target.value)
     }
 
-    const handleSelfIntroductionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleSelfIntroductionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelfIntroduction(event.target.value)
     }
 
@@ -87,138 +95,109 @@ const Register = () => {
 
                             {/* 氏名 */}
                             <div className="sm:col-span-4">
-                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    氏名
-                                </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={name}
-                                            id="name"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            onChange={handleNameChange}
-                                            required
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="名前"
+                                        name="name"
+                                        value={name}
+                                        id="name"
+                                        onChange={handleNameChange}
+                                        isRequired
+                                    />
                                 </div>
                             </div>
 
                             {/* パスワード */}
                             <div className="sm:col-span-4">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                    パスワード
-                                </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input
-                                            type="text"
-                                            name="password"
-                                            value={password}
-                                            id="password"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            onChange={handlePasswordChange}
-                                            required
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="パスワード"
+                                        name="password"
+                                        value={password}
+                                        id="password"
+                                        onChange={handlePasswordChange}
+                                        isRequired
+                                    />
                                 </div>
                             </div>
-                            
+
                             {/* 性別 */}
                             <div className="sm:col-span-4">
-                                <label htmlFor="sex" className="block text-sm font-medium leading-6 text-gray-900">
-                                    性別
-                                </label>
                                 <div className="mt-2">
-                                    <select
-                                        id="sex"
-                                        name="sex"
-                                        value={sex}
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                        onChange={handleSexChange}
-                                        required
-                                    >
-                                        <option>男性</option>
-                                        <option>女性</option>
-                                        <option>その他</option>
-                                    </select>
+                                <Select
+                                    label="性別"
+                                    name="sex"
+                                    id="sex"
+                                    className="max-w-xs"
+                                    onChange={handleSexChange}
+                                    isRequired
+                                >
+                                    {sexList.map((sex) => (
+                                    <SelectItem key={sex.value} value={sex.value}>
+                                        {sex.label}
+                                    </SelectItem>
+                                    ))}
+                                </Select>
                                 </div>
                             </div>
 
                             {/* 性格 */}
                             <div className="sm:col-span-4">
-                                <label htmlFor="personality" className="block text-sm font-medium leading-6 text-gray-900">
-                                    性格
-                                </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input
-                                            type="text"
-                                            name="personality"
-                                            value={personality}
-                                            id="personality"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            onChange={handlePersonalityChange}
-                                            required
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="性格"
+                                        name="personality"
+                                        value={personality}
+                                        id="personality"
+                                        onChange={handlePersonalityChange}
+                                        isRequired
+                                    />
                                 </div>
                             </div>
 
                             {/* 趣味 */}
                             <div className="sm:col-span-4">
-                                <label htmlFor="hobby" className="block text-sm font-medium leading-6 text-gray-900">
-                                    趣味
-                                </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input
-                                            type="text"
-                                            name="hobby"
-                                            value={hobby}
-                                            id="hobby"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            onChange={handleHobbyChange}
-                                            required
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="趣味"
+                                        name="hobby"
+                                        value={hobby}
+                                        id="hobby"
+                                        onChange={handleHobbyChange}
+                                        isRequired
+                                    />
                                 </div>
                             </div>
 
                             {/* LINEのURL */}
                             <div className="sm:col-span-4">
-                                <label htmlFor="lineURL" className="block text-sm font-medium leading-6 text-gray-900">
-                                    LINEのURL
-                                </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input
-                                            type="text"
-                                            name="lineURL"
-                                            value={lineURL}
-                                            id="lineURL"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            onChange={handleLINEURLChange}
-                                            required
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        label="LINEのURL"
+                                        name="line_url"
+                                        value={lineURL}
+                                        id="line_url"
+                                        onChange={handleLINEURLChange}
+                                        isRequired
+                                    />
                                 </div>
                             </div>
 
                             {/* 自己紹介 */}
                             <div className="col-span-full">
-                                <label htmlFor="self_introduction" className="block text-sm font-medium leading-6 text-gray-900">
-                                    自己紹介
-                                </label>
                                 <div className="mt-2">
-                                    <textarea
-                                        id="self_introduction"
+                                    <Textarea
+                                        label="自己紹介"
                                         name="self_introduction"
                                         value={selfIntroduction}
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        id="self_introduction"
                                         onChange={handleSelfIntroductionChange}
-                                        required
+                                        isRequired
                                     />
                                 </div>
                             </div>
@@ -226,14 +205,14 @@ const Register = () => {
                             {/* 画像 */}
                             <div className="col-span-full">
                                 <label htmlFor="imageURL" className="block text-sm font-medium leading-6 text-gray-900">
-                                    画像
+                                    プロフィール写真
                                 </label>
                                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                     <div className="text-center">
                                         <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                             <label
                                                 htmlFor="imageURL"
-                                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500"
                                             >
                                             <span>Upload a file</span>
                                                 <input
@@ -256,13 +235,10 @@ const Register = () => {
                     </div>
                 </div>
 
-                <div className="mt-6 flex items-center gap-x-6">
-                    <button
-                        type="submit"
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
+                <div className="mt-6 flex gap-x-6 justify-end">
+                    <Button color="primary" variant="flat" type="submit">
                         登録
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>
